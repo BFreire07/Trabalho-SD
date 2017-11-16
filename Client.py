@@ -11,6 +11,7 @@ O cliente vai enviar uma tupla para a sacola de tarefas que esta no servidor
 
 import socket, time
 from pickle import loads, dumps
+from datetime import datetime
 
 def transpose(mat):      #essa funcao transforma as linhas da matriz
                          #em colunas e retorna uma nova matriz 'tmat'
@@ -37,8 +38,10 @@ def main():
     dest = (HOST, PORT) #tupla com o destino da conexao
     tcp.connect(dest)   #conecta o cliente com o servidor
 
-    matA = [[2,5,9,3,8],[4,3,3,2,1],[1,0,9,2,0],[1,5,4,5,4]]
-    matB = [[2,1],[0,3],[2,3],[3,4],[5,4]]
+    #matA = [[2,5,9,3,8],[4,3,3,2,1],[1,0,9,2,0],[1,5,4,5,4]]
+    #matB = [[2,1],[0,3],[2,3],[3,4],[5,4]]
+    matA = [[2,3],[4,5]]
+    matB = [[6,7],[8,9]]
     colB = transpose(matB)  #invoca a funcao transpose
 
     rxc = {}
@@ -52,7 +55,7 @@ def main():
             k+=1
             tp = dumps(rxc)
             tcp.send(tp)
-            time.sleep(0.1)
+            time.sleep(0.05)
     
     tcp.send(dumps(''))
 
@@ -70,10 +73,12 @@ def main():
             x += 1
         k.append(lr)
 
+
     print (k)
-    print()
     print('Terminei')
 
 
 if __name__ == "__main__":
+    start = datetime.now()
     main()
+    print("Execução: %s" %(datetime.now() - start))
